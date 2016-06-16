@@ -1,6 +1,10 @@
 /* See the file "LICENSE" for the full license governing this code. */
 package com.dalelotts.rpn;
 
+
+import java.io.Console;
+import java.util.Scanner;
+
 /**
  * Main class and entry point for the RPN Calculator.
  *
@@ -16,6 +20,6 @@ public final class Main {
 
 
 	public static void main(final String ... args) {
-		new Calculator().run();
+		new Calculator(new Scanner(System.in), System.out).run();
 	}
 }
