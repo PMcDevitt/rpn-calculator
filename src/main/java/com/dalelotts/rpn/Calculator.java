@@ -47,20 +47,20 @@ final class Calculator {
 			final String tokenString = scanner.next();
 
 			if(operators.contains(tokenString)){
+				try {
 				ScriptEngineManager manager = new ScriptEngineManager();
 				ScriptEngine engine = manager.getEngineByName("js");
-				Object result = null;
-				try {
-					result = engine.eval(stack.pop() + tokenString + stack.pop());
+				String b = stack.pop();
+				String a = stack.pop();
+				Object result = engine.eval(a + tokenString + b);
+				output.println(result);
 				} catch (ScriptException e) {
 					e.printStackTrace();
 				}
-
-				System.out.print(result);
 			}else{
 				stack.push(tokenString);
 			}
-//			output.println(tokenString);
+
 		}
 	}
 }
