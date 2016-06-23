@@ -1,11 +1,18 @@
 /* See the file "LICENSE" for the full license governing this code. */
 package com.dalelotts.rpn;
 
+import com.sun.javafx.fxml.expression.Expression;
 import com.sun.tools.doclets.formats.html.SourceToHTMLConverter;
+import com.sun.tools.example.debug.expr.ExpressionParser;
+import jdk.internal.org.objectweb.asm.tree.analysis.Interpreter;
 
+import javax.script.ScriptEngine;
+import javax.script.ScriptEngineManager;
+import javax.script.ScriptException;
 import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.Scanner;
+import java.util.Stack;
 
 import static java.lang.Integer.parseInt;
 
@@ -31,14 +38,29 @@ final class Calculator {
 	}
 
 	public void run() {
-
+		String operators = "+,-,*,/";
 		output.println("Please enter values followed by operation symbols:");
 		output.println("(Press CTRL+Z to end the program):");
-		ArrayList<String> inputs = null;
-		while (scanner.hasNext()) {
-			final String tokenString = scanner.next();
-			output.println(tokenString);
-		}
 
+		Stack<String> stack = new Stack<>();
+		while (scanner.hasNextLine()) {
+			final String tokenString = scanner.next();
+
+			if(operators.contains(tokenString)){
+				ScriptEngineManager manager = new ScriptEngineManager();
+				ScriptEngine engine = manager.getEngineByName("js");
+				Object result = null;
+				try {
+					result = engine.eval(stack.pop() + tokenString + stack.pop());
+				} catch (ScriptException e) {
+					e.printStackTrace();
+				}
+
+				System.out.print(result);
+			}else{
+				stack.push(tokenString);
+			}
+//			output.println(tokenString);
+		}
 	}
 }
