@@ -1,21 +1,12 @@
 /* See the file "LICENSE" for the full license governing this code. */
 package com.dalelotts.rpn;
 
-import com.sun.javafx.fxml.expression.Expression;
-import com.sun.tools.doclets.formats.html.SourceToHTMLConverter;
-import com.sun.tools.example.debug.expr.ExpressionParser;
-import jdk.internal.org.objectweb.asm.tree.analysis.Interpreter;
-
 import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
 import javax.script.ScriptException;
 import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.Scanner;
-import java.util.Stack;
-
-import static java.lang.Integer.parseInt;
-
 
 /**
  * Implementation of a Reverse Polish Notation calculator.
@@ -29,38 +20,48 @@ final class Calculator {
 	private Scanner scanner;
 	private PrintStream output;
 
-	public Calculator() {
-	}
-
 	public Calculator(Scanner scanner, PrintStream output) {
 		this.scanner = scanner;
 		this.output = output;
 	}
 
 	public void run() {
-		String operators = "+,-,*,/";
-		output.println("Please enter values followed by operation symbols:");
-		output.println("(Press CTRL+Z to end the program):");
+		final String stnadardOperators = "+,-,*,/";
+		output.println("Please enter values followed by operation symbols:\n(Press CTRL+Z to end the program):");
 
-		Stack<String> stack = new Stack<>();
+		ArrayList<String> inputs = new ArrayList<>();
 		while (scanner.hasNextLine()) {
 			final String tokenString = scanner.next();
-
-			if(operators.contains(tokenString)){
-				try {
-				ScriptEngineManager manager = new ScriptEngineManager();
-				ScriptEngine engine = manager.getEngineByName("js");
-				String b = stack.pop();
-				String a = stack.pop();
-				Object result = engine.eval(a + tokenString + b);
-				output.println(result);
-				} catch (ScriptException e) {
-					e.printStackTrace();
-				}
+			if(tokenString.matches("\\d+")){
+				inputs.add(tokenString);
 			}else{
-				stack.push(tokenString);
+				if(inputs.size() > 1 || tokenString.contains("%")) {
+					try {
+						String numB = inputs.remove(inputs.size() - 1);
+						if(stnadardOperators.contains(tokenString)){
+							inputs.add(Calculate(inputs.remove(inputs.size() - 1) + tokenString + numB));
+						}else{
+							if(tokenString.contains("^")){
+								inputs.add(String.valueOf(Math.pow(Double.parseDouble(inputs.remove(inputs.size()- 1)), Double.parseDouble(numB))));
+							}else if(tokenString.equals("%")) {
+								inputs.add(Calculate(inputs.remove(inputs.size() - 1) +"*" + numB +" / 100"));
+							} else {
+								inputs.add(Calculate(numB + "*" +tokenString.replace("%", " / 100")));
+							}
+						}
+					} catch (ScriptException e) {
+						e.printStackTrace();
+					}
+				}else{
+					System.out.print("You have to add at least "+ (2 - inputs.size()) + " number(s) before adding an operator");
+				}
 			}
-
+			for(String s : inputs){ output.print(s + " ");}
+			output.print("\n");
 		}
+	}
+	public String Calculate(String evalString) throws ScriptException {
+		ScriptEngine engine = new ScriptEngineManager().getEngineByName("js");
+		return engine.eval(evalString).toString();
 	}
 }

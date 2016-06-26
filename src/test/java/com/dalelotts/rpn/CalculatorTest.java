@@ -33,11 +33,11 @@ public class CalculatorTest {
 
         // When
         calculator.run();
-        final String[] strings = outStream.toString().split("\n");
+        final String[] strings = outStream.toString("utf8").split("\n");
         // Then
         // How can we make sure the calculator did the right thing?
-        assertThat(strings[0].toString(), equalTo("Please enter values followed by operation symbols:"));
-        assertThat(strings[1].toString(), equalTo("(Press CTRL+Z to end the program):"));
+        assertThat(strings[0].trim(), equalTo("Please enter values followed by operation symbols:"));
+        assertThat(strings[1].trim(), equalTo("(Press CTRL+Z to end the program):"));
 
     }
 
@@ -48,16 +48,16 @@ public class CalculatorTest {
         final PrintStream printStream = new PrintStream(outStream);
 
         new Calculator(new Scanner(inStream), printStream).run();
-        final String[] strings = outStream.toString().split("\n");
-        assertThat(strings[2].toString(), equalTo("6"));
+        final String[] strings = outStream.toString("utf8").split("\n");
+        assertThat(strings[strings.length -1].trim(), equalTo("6"));
 
         final InputStream inStreamA = toInputStream("7 3 +", "UTF-8");
         final ByteArrayOutputStream outStreamA = new ByteArrayOutputStream();
         final PrintStream printStreamA = new PrintStream(outStreamA);
 
         new Calculator(new Scanner(inStreamA), printStreamA).run();
-        final String[] stringsA = outStreamA.toString().split("\n");
-        assertThat(stringsA[2].toString(), equalTo("10"));
+        final String[] stringsA = outStreamA.toString("utf8").split("\n");
+        assertThat(stringsA[stringsA.length -1].trim(), equalTo("10"));
     }
 
     @Test
@@ -67,16 +67,16 @@ public class CalculatorTest {
         final PrintStream printStream = new PrintStream(outStream);
 
         new Calculator(new Scanner(inStream), printStream).run();
-        final String[] strings = outStream.toString().split("\n");
-        assertThat(strings[2].toString(), equalTo("0"));
+        final String[] strings = outStream.toString("utf8").split("\n");
+        assertThat(strings[strings.length -1].trim(), equalTo("0"));
 
         final InputStream inStreamA = toInputStream("7 3 -", "UTF-8");
         final ByteArrayOutputStream outStreamA = new ByteArrayOutputStream();
         final PrintStream printStreamA = new PrintStream(outStreamA);
 
         new Calculator(new Scanner(inStreamA), printStreamA).run();
-        final String[] stringsA = outStreamA.toString().split("\n");
-        assertThat(stringsA[2].toString(), equalTo("4"));
+        final String[] stringsA = outStreamA.toString("utf8").split("\n");
+        assertThat(stringsA[strings.length -1].trim(), equalTo("4"));
     }
 
     @Test
@@ -87,16 +87,16 @@ public class CalculatorTest {
         final PrintStream printStream = new PrintStream(outStream);
 
         new Calculator(new Scanner(inStream), printStream).run();
-        final String[] strings = outStream.toString().split("\n");
-        assertThat(strings[2].toString(), equalTo("9"));
+        final String[] strings = outStream.toString("utf8").split("\n");
+        assertThat(strings[strings.length -1].trim(), equalTo("9"));
 
         final InputStream inStreamA = toInputStream("7 3 *", "UTF-8");
         final ByteArrayOutputStream outStreamA = new ByteArrayOutputStream();
         final PrintStream printStreamA = new PrintStream(outStreamA);
 
         new Calculator(new Scanner(inStreamA), printStreamA).run();
-        final String[] stringsA = outStreamA.toString().split("\n");
-        assertThat(stringsA[2].toString(), equalTo("21"));
+        final String[] stringsA = outStreamA.toString("utf8").split("\n");
+        assertThat(stringsA[strings.length -1].trim(), equalTo("21"));
     }
 
     @Test
@@ -106,15 +106,15 @@ public class CalculatorTest {
         final PrintStream printStream = new PrintStream(outStream);
 
         new Calculator(new Scanner(inStream), printStream).run();
-        final String[] strings = outStream.toString().split("\n");
-        assertThat(strings[2].toString(), equalTo("1"));
+        final String[] strings = outStream.toString("utf8").split("\n");
+        assertThat(strings[strings.length -1].trim(), equalTo("1"));
 
         final InputStream inStreamA = toInputStream("27 9 /", "UTF-8");
         final ByteArrayOutputStream outStreamA = new ByteArrayOutputStream();
         final PrintStream printStreamA = new PrintStream(outStreamA);
 
         new Calculator(new Scanner(inStreamA), printStreamA).run();
-        final String[] stringsA = outStreamA.toString().split("\n");
-        assertThat(stringsA[2].toString(), equalTo("3"));
+        final String[] stringsA = outStreamA.toString("utf8").split("\n");
+        assertThat(stringsA[strings.length -1].trim(), equalTo("3"));
     }
 }
