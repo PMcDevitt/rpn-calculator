@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
+import java.util.function.IntBinaryOperator;
 
 /**
  * Implementation of a Reverse Polish Notation calculator.
@@ -40,12 +41,16 @@ final class Calculator {
 			//////
 			if(!tokenString.matches("\\d+")){
 				inputnew.add(tokenString);
+
 			}
 //			String[] myArray = { "this", "is", "a", "sentence" };
 //			String result = Arrays.stream(myArray)
 //					.reduce("", (a,b) -> a + b);
 //			System.out.print("Result Stream = " + result);
 			//for(String s : result){ System.out.println(s + " ");}
+
+
+
 
 			//////
 			if(tokenString.matches("\\d+")){
