@@ -17,25 +17,8 @@ import java.util.function.IntBinaryOperator;
 
 public final class Main {
 
-    private Main() {
-
-    }
-
-
     public static void main(final String... args) {
-        //new Calculator(new Scanner(System.in), System.out).run();
-        int res = opByName.get("+").calculate(12, 14);
-        System.out.println(res);
-        int res1 = opByName.get("*").calculate(12, 14);
-        System.out.println(res1);
+        new Calculator(new Scanner(System.in), System.out).run();
     }
 
-    static final Map<String, Operation> opByName = new HashMap<>();
-
-    static {
-        opByName.put("+", (leftSide, rhs) -> leftSide + rhs);
-        opByName.put("-", (a, b) -> a - b);
-        opByName.put("*", (a, b) -> a * b);
-        opByName.put("/", (a, b) -> a / b);
-    }
 }

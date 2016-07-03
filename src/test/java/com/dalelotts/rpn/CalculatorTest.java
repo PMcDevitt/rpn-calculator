@@ -97,6 +97,14 @@ public class CalculatorTest {
         new Calculator(new Scanner(inStreamA), printStreamA).run();
         final String[] stringsA = outStreamA.toString("utf8").split("\n");
         assertThat(stringsA[strings.length -1].trim(), equalTo("21"));
+
+        final InputStream inStreamB = toInputStream("7 0 *", "UTF-8");
+        final ByteArrayOutputStream outStreamB = new ByteArrayOutputStream();
+        final PrintStream printStreamB = new PrintStream(outStreamB);
+
+        new Calculator(new Scanner(inStreamB), printStreamB).run();
+        final String[] stringsB = outStreamB.toString("utf8").split("\n");
+        assertThat(stringsB[strings.length -1].trim(), equalTo("0"));
     }
 
     @Test
@@ -116,5 +124,13 @@ public class CalculatorTest {
         new Calculator(new Scanner(inStreamA), printStreamA).run();
         final String[] stringsA = outStreamA.toString("utf8").split("\n");
         assertThat(stringsA[strings.length -1].trim(), equalTo("3"));
+
+//        final InputStream inStreamB = toInputStream("7 0 /", "UTF-8");
+//        final ByteArrayOutputStream outStreamB = new ByteArrayOutputStream();
+//        final PrintStream printStreamB = new PrintStream(outStreamB);
+//
+//        new Calculator(new Scanner(inStreamB), printStreamB).run();
+//        final String[] stringsB = outStreamB.toString("utf8").split("\n");
+//        assertThat(stringsB[strings.length -1].trim(), equalTo("0"));
     }
 }
